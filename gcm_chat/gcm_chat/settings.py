@@ -106,3 +106,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'core.User'
+GCM_APIKEY = 'AIzaSyAOBLmO6486HTa6b6mIIoOrFt90A09pVG8'

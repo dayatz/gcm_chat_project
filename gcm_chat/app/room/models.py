@@ -8,7 +8,7 @@ class ChatRoom(models.Model):
     user = models.ForeignKey(User, related_name='rooms')
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=30)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, null=True)
     description = models.TextField()
 
     def save(self, *args, **kwargs):
@@ -27,3 +27,6 @@ class Message(models.Model):
     room = models.ForeignKey(ChatRoom, related_name='messages')
     user = models.ForeignKey(User, related_name='sent_messages')
     message = models.TextField()
+
+    def __str__(self):
+        return '%s: %s' % (self.user.username, self.message)
