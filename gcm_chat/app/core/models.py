@@ -1,4 +1,3 @@
-from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
@@ -7,17 +6,18 @@ from gcm.models import Device
 
 
 class User(AbstractUser):
-    device = models.OneToOneField(Device, null=True)
-
     def device_gcm(self, reg_id):
-        d = self.device
-        if not d:
-            d = Device(dev_id=self.pk, name=self.username)
-        d.reg_id = reg_id
-        d.save()
+        device = self.get_user_device()
+        if not device:
+            device = Device(dev_id=self.pk, name=self.username)
+        device.reg_id = reg_id
+        device.save()
 
-    def send_message(self, message):
-        self.device.send_message({'message': message})
+    def get_user_device(self):
+        try:
+            return Device.objects.get(dev_id=self.pk)
+        except:
+            return None
 
 
 @receiver(post_save, sender=User)
