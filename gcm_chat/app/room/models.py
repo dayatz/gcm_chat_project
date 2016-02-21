@@ -1,3 +1,25 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+from app.core.models import User
 
-# Create your models here.
+
+class ChatRoom(models.Model):
+    user = models.ForeignKey(User, related_name='rooms')
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=30)
+    slug = models.SlugField()
+    description = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(ChatRoom, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Message(models.Model):
+    room = models.ForeignKey(ChatRoom, related_name='messages')
+    user = models.ForeignKey(User, related_name='sent_messages')
+    message = models.TextField()

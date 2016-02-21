@@ -1,3 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from gcm.models import Device
 
-# Create your models here.
+
+class User(AbstractUser):
+    device = models.OneToOneField(Device)
