@@ -5,6 +5,11 @@ from .models import ChatRoom, Message
 class MessageSerializer(ModelSerializer):
     class Meta:
         model = Message
+        extra_kwargs = {
+            'message': {'required': False},
+            'room': {'required': False},
+            'user': {'required': False}
+        }
 
 
 class ChatRoomSerializer(ModelSerializer):
@@ -19,3 +24,7 @@ class ChatRoomSerializer(ModelSerializer):
 
     class Meta:
         model = ChatRoom
+        extra_kwargs = {
+            'user': {'required': False},
+            'description': {'required': False}
+        }

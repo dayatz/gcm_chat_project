@@ -7,7 +7,7 @@ from app.room.views import ChatRoomViewSet
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'users', UserViewSet, base_name='user')
-router.register(r'rooms', ChatRoomViewSet, base_name='room')
+router.register(r'rooms', ChatRoomViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
