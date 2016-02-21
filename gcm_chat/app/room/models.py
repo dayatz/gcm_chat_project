@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from app.core.models import User
+from gcm.api import GCMMessage
 
 
 class ChatRoom(models.Model):
@@ -14,6 +15,9 @@ class ChatRoom(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(ChatRoom, self).save(*args, **kwargs)
+
+    def send_message(self, message):
+        GCMMessage().send({'message': message}, to='/topics/%s' % self.slug)
 
     def __str__(self):
         return self.title
