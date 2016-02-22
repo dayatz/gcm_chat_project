@@ -9,7 +9,7 @@ class User(AbstractUser):
     def device_gcm(self, reg_id):
         device = self.get_user_device()
         if not device:
-            device = Device(dev_id=self.pk, name=self.username)
+            device = Device(dev_id=str(self.pk), name=self.username)
         device.reg_id = reg_id
         device.save()
 
