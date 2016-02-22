@@ -5,7 +5,7 @@ from gcm.api import GCMMessage
 
 
 class ChatRoom(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='created_rooms')
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=30)
     slug = models.SlugField(blank=True, null=True)
@@ -24,7 +24,7 @@ class ChatRoom(models.Model):
 
 
 class Message(models.Model):
-    room = models.ForeignKey(ChatRoom)
+    room = models.ForeignKey(ChatRoom, related_name='messages')
     user = models.ForeignKey(User, related_name='sent_messages')
     message = models.TextField()
 

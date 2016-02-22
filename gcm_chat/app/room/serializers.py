@@ -7,7 +7,7 @@ class MessageSerializer(ModelSerializer):
         model = Message
         extra_kwargs = {
             'message': {'required': False},
-            'room': {'required': False},
+            'room': {'required': False, 'write_only': True},
             'user': {'required': False}
         }
 
@@ -20,7 +20,7 @@ class ChatRoomSerializer(ModelSerializer):
             for field in remove_fields:
                 self.fields.pop(field)
 
-    messages = MessageSerializer(required=False)
+    messages = MessageSerializer(many=True, read_only=True)
 
     class Meta:
         model = ChatRoom
